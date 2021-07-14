@@ -45,7 +45,7 @@ DESCRIBE `mydb`.`servants`;
 INSERT INTO `mydb`.`servants` (`id`, `servant_name`, `yrs_served`, `cats_id`) VALUES (DEFAULT, "Peter", 5, 1);
 INSERT INTO `mydb`.`servants` (`id`, `servant_name`, `yrs_served`, `cats_id`) VALUES (DEFAULT, "Junaid", 2, 2);
 -- Aktuell ist eine Doppelte Belegung der FOREIN ID möglich, das darf nicht sein! ---> Lösung UNIQUIE cats_id in Detailtabelle
-INSERT INTO `mydb`.`servants` (`id`, `servant_name`, `yrs_served`, `cats_id`) VALUES (DEFAULT, "Holger", 3, 1);
+INSERT INTO `mydb`.`servants` (`id`, `servant_name`, `yrs_served`, `cats_id`) VALUES (DEFAULT, "Holger", 3, 3);
 
 -- Inhalte Mastertabelle
 SELECT * FROM `mydb`.`servants`;
