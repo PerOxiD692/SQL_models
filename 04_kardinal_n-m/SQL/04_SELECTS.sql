@@ -67,4 +67,28 @@ SELECT
 FROM purchases
 INNER JOIN servants ON servants.id = purchases.servants_id
 INNER JOIN products ON products.id = purchases.products_id
-GROUP BY product_name ORDER BY "Anzahl" DESC;
+GROUP BY product_name ORDER BY Anzahl DESC;
+
+-- Welche Umsätze hatte das Produkt?
+SELECT
+    product_name AS "Produkt",
+    COUNT(product_name) AS "Anzahl",
+    SUM(product_price) AS "UMSATZ"
+FROM purchases
+INNER JOIN servants ON servants.id = purchases.servants_id
+INNER JOIN products ON products.id = purchases.products_id
+GROUP BY product_name ORDER BY UMSATZ DESC;
+
+-- Berechnung in gleicher Tabelle
+SELECT
+	product_name AS Produkt,
+    product_price AS Preis,
+    count(product_name) AS Anzahl,
+    count(product_name) * product_price AS Umsatz
+FROM purchases
+INNER JOIN servants ON servants.id = purchases.servants_id
+INNER JOIN products ON products.id = purchases.products_id
+GROUP BY Produkt,Preis
+ORDER BY Umsatz DESC
+;
+
