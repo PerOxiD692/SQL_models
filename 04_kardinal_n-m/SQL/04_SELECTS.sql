@@ -92,3 +92,59 @@ GROUP BY Produkt,Preis
 ORDER BY Umsatz DESC
 ;
 
+/*  Lösung B: Berechnung mit tmp-Tabelle
+DROP TABLE IF EXISTS tmp;
+CREATE TABLE tmp
+(
+	product_name VARCHAR(45) NOT NULL,
+    product_price DECIMAL(4,2) NOT NULL,
+    anzahl INT NOT NULL
+);
+-- tmp: Struktur
+DESCRIBE tmp;
+-- Daten aus SELECT in Tabelle tmp
+INSERT INTO tmp
+SELECT
+	product_name AS Produkt,
+    product_price AS Preis,
+    count(product_name) AS Anzahl
+FROM purchases 
+INNER JOIN servants ON servants.id = purchases.servants_id
+INNER JOIN products ON products.id = purchases.products_id
+GROUP BY product_name,product_price
+;
+-- tmp: Inhalte
+SELECT * FROM tmp;
+-- Berechnung Umsätze
+SELECT
+	product_name AS Produkt,
+    product_price AS Preis,
+	Anzahl,
+    Anzahl * product_price AS Umsatz
+FROM tmp
+ORDER BY Umsatz DESC;
+*/
+
+
+-- Wer bekommt den Lachs?
+-- Ansatz: Produkt --> Diener : cats_id --> cat: Name
+-- Lösung Tabelle
+SELECT 
+	servant_name AS "DIENER",
+    product_name AS "PRODUKT",
+    cat_name AS "HERRSCHER"
+FROM purchases
+INNER JOIN servants ON servants.id = purchases.servants_id
+INNER JOIN products ON products.id = purchases.products_id
+INNER JOIN cats ON cats.id = servants.cats_id
+WHERE product_name LIKE "%Lachs%";
+
+-- Lösung String
+SELECT 
+    CONCAT(servant_name, " der Diener von ", cat_name," kauft, ",product_name, " für seinen Herrscher!") AS "Wer bekommt den Lachs?"
+FROM purchases
+INNER JOIN servants ON servants.id = purchases.servants_id
+INNER JOIN products ON products.id = purchases.products_id
+INNER JOIN cats ON cats.id = servants.cats_id
+WHERE product_name LIKE "%Lachs%";
+
